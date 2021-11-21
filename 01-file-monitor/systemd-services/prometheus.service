@@ -1,0 +1,12 @@
+[Unit]
+Description=prometheus service
+
+[Service]
+ExecStartPre=-/usr/bin/killall prometheus
+ExecStart=/opt/prometheus/prometheus  --log.level=debug --config.file=/etc/prometheus/prometheus.yml
+ExecStop=-/usr/bin/killall prometheus
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  prometheus:
+    image: prom/prometheus
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--log.level=debug"]
+    volumes:
+      - ./etc/prometheus:/etc/prometheus
+    ports:
+      - "9090:9090"
+  grafana:
+    build:
+      context: ./grafana
+    volumes:
+      - ./grafana-storage:/var/lib/grafana
+    ports:
+      - "3000:3000"
+  filestats:
+    image: mdoubez/filestat_exporter
+    command: ["-config.file=/etc/filestats/filestats.yaml", "-log.level=debug"]
+    volumes:
+      - ./etc/filestats:/etc/filestats
+      - ${TARGET_DIR}:/data
+    ports:
+      - "9943:9943"
+  node_exporter:
+    image: quay.io/prometheus/node-exporter
+    command: ["--collector.disable-defaults", "--collector.textfile", "--collector.textfile.directory=/etc/node_exporter"]
+    ports:
+      - "9100:9100"
+    volumes:
+      - ./etc/node_exporter:/etc/node_exporter
+      - ${TARGET_DIR}:/data
+  runner:
+    build:
+      context: ./runner
+    volumes:
+      - ./etc/node_exporter:/etc/node_exporter
+      - ${TARGET_DIR}:/data
+  doc:
+    build:
+      context: ./doc
+    ports:
+      - "9000:9000"

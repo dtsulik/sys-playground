@@ -1,0 +1,12 @@
+[Unit]
+Description=filestat service
+
+[Service]
+ExecStartPre=-/usr/bin/killall filestat_exporter
+ExecStart=/opt/filestat_exporter/filestat_exporter -config.file /etc/filestats/filestat.yaml -log.level=debug
+ExecStop=-/usr/bin/killall filestat_exporter
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

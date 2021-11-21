@@ -1,0 +1,12 @@
+[Unit]
+Description=node exporter service
+
+[Service]
+ExecStartPre=-/usr/bin/killall node_exporter
+ExecStart=/opt/node_exporter/node_exporter --collector.disable-defaults --collector.textfile --collector.textfile.directory=/etc/node_exporter
+ExecStop=-/usr/bin/killall node_exporter
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
