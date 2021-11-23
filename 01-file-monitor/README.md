@@ -161,6 +161,7 @@ NOTE: In case of direct install it will be HOST_IP instead of prometheus. For ex
 
 + Step 4: import dashboard:
     * Copy conents of [grafana/dashboard.json](/01-file-monitor/grafana/dashboard.json)
+    * NOTE: if you installed using ansible playbook replace `directory=\"/data\"` inside json with proper direcotry name
     * Click import:
 ![Grafana dashboard](/01-file-monitor/doc/screens/grafana_04.jpg?raw=true "Grafana dashboard")
     * Paste contents of dashboard.json in `Import via panel json`:
