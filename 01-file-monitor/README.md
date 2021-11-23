@@ -15,10 +15,10 @@ The github repositories used:
 ### Quick start
 To quickly get started set target directory in `.env` file, change direcotry permisions 
 ```
-$ sudo chmod a+w grafana-storage
-$ sudo chmod a+w etc/node_exporter
-$ echo 'TARGET_DIR=/home/user/' > .env
-$ echo CURRENT_UID=$(id -u):$(id -g) >> .env
+ sudo chmod a+w grafana-storage
+ sudo chmod a+w etc/node_exporter
+ echo 'TARGET_DIR=/home/user/' > .env
+ echo CURRENT_UID=$(id -u):$(id -g) >> .env
 ```
 and run `docker-compose up --build`
 
@@ -40,11 +40,11 @@ The chain of information goes in following way:
 ### Quick start
 To directly install all components to system run:
 ```
-$ ansible-playbook install-all.yaml
+ ansible-playbook install-all.yaml
 ```
 You can also separately install collectors on target systems:
 ```
-$ ansible-playbook install-agents.yaml
+ ansible-playbook install-agents.yaml
 ```
 
 Biggest difference from docker method is that instead of `runner` container we are installing a cron to do the same job. Instread of `/data` folder specify the target directory.
@@ -58,87 +58,87 @@ Biggest difference from docker method is that instead of `runner` container we a
 Following example is on freshly installed Centos system:
 + Step 1: Update system and packages:
 ```
-$ sudo yum update -y
+ sudo yum update -y
 ```
 + Step 2: install required packages:
 ```
-$ sudo yum install -y epel-release
-$ sudo yum install -y yum-utils git ansible
+ sudo yum install -y epel-release
+ sudo yum install -y yum-utils git ansible
 ```
 + Step 3a: add docker repo and install docker (Centos 7 or earlier):
 ```
-$ sudo yum-config-manager \
+ sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/rhel/docker-ce.repo
-$ sudo yum install -y docker-ce docker-ce-cli containerd.io
+ sudo yum install -y docker-ce docker-ce-cli containerd.io
 ```
 + Step 3b: add docker repo and install docker (Centos 8 stream or later):
 ```
-$ sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-$ sudo dnf install -y docker-ce docker-ce-cli containerd.io
+ sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+ sudo dnf install -y docker-ce docker-ce-cli containerd.io
 ```
 + Step 4: enable and start docker:
 ```
-$ sudo systemctl enable --now docker
+ sudo systemctl enable --now docker
 ```
 + Step 5: if running docker from unprivilleged user (non root) add that user to docker group or skip to 6:
 ```
-$ sudo usermod -aG docker user
+ sudo usermod -aG docker user
 ```
 + Step 6: install docker-compose:
 ```
-$ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
-$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+ sudo chmod +x /usr/local/bin/docker-compose
+ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
 NOTE: the `ln -s` to `/usr/bin` directory is needed to make `docker-compose` command available to root user for `sudo docker-compose` if it may be needed.
 + Step 7: Clone this repo:
 ```
-$ git clone https://github.com/dtsulik/sys-playground.git
+ git clone https://github.com/dtsulik/sys-playground.git
 ```
 
 ### File monitor setup (Docker way)
 + Step 1: Set permissions for directories backing the docker volumes:
 ```
-$ cd sys-playground/01-file-monitor/
-$ chmod a+w grafana-storage
-$ chmod a+w etc/node_exporter
+ cd sys-playground/01-file-monitor/
+ chmod a+w grafana-storage
+ chmod a+w etc/node_exporter
 ```
 + Step 2: set target directory (in this case its `/home/user/`):
 ```
-$ echo 'TARGET_DIR=/home/user/' > .env
+ echo 'TARGET_DIR=/home/user/' > .env
 ```
 + Step 3: set current user id:
 ```
-$ echo CURRENT_UID=$(id -u):$(id -g) >> .env
+ echo CURRENT_UID=$(id -u):$(id -g) >> .env
 ```
 + Step 4: Start the services:
 ```
-$ docker-compose up
+ docker-compose up
 ```
 ### File monitor setup (direct install)
 + Step 1: Install ansible community packages
 ```
-$ sudo ansible-galaxy collection install community.general
+ sudo ansible-galaxy collection install community.general
 ```
 + Step 2: Install python3 and pip3
 ```
-$ sudo yum install -y python3 python3-pip
+ sudo yum install -y python3 python3-pip
 ```
 + Step 3: install pip module:
 ```
-$ sudo pip3 install github3.py
+ sudo pip3 install github3.py
 ```
 + Step 4: edit [inventory.yaml](/01-file-monitor/inventory.yaml) (currently not used)
 + Step 5: Run ansible playbook
 ```
-$ cd sys-playground/01-file-monitor/
-$ sudo ansible-playbook install-all.yaml
+ cd sys-playground/01-file-monitor/
+ sudo ansible-playbook install-all.yaml
 ```
 ### Grafana setup (Docker and direct)
 + Step 1: allow Grafana UI in firewall:
 ```
-$ sudo firewall-cmd --add-port=3000/tcp
+ sudo firewall-cmd --add-port=3000/tcp
 ```
 + Step 2: access Grafana UI at `http://HOST_IP:3000`
 ```
@@ -180,18 +180,18 @@ These 3 services do not come with RPM or DEB packaging and need to be installed 
 For example:
 
 ```
-$ wget 'https://github.com/prometheus/prometheus/releases/download/v2.31.1/prometheus-2.31.1.linux-amd64.tar.gz'
-$ mkdir prometheus
-$ tar xzf prometheus-*.tar.gz -C prometheus --strip-components 1
-$ sudo cp prometheus/prometheus /opt/prometheus/prometheus
+ wget 'https://github.com/prometheus/prometheus/releases/download/v2.31.1/prometheus-2.31.1.linux-amd64.tar.gz'
+ mkdir prometheus
+ tar xzf prometheus-*.tar.gz -C prometheus --strip-components 1
+ sudo cp prometheus/prometheus /opt/prometheus/prometheus
 ```
 Copy config and service file from this projects directory:
 ```
-$ sudo cp -r etc/prometheus /etc/prometheus
-$ sudo cp systemd-services/prometheus.service /usr/lib/systemd/system/
-$ sudo systemctl daemon-reload
-$ sudo systemctl enable prometheus
-$ sudo systemctl start prometheus
+ sudo cp -r etc/prometheus /etc/prometheus
+ sudo cp systemd-services/prometheus.service /usr/lib/systemd/system/
+ sudo systemctl daemon-reload
+ sudo systemctl enable prometheus
+ sudo systemctl start prometheus
 ```
 NOTE: this example assumes you are installing in `/opt/`. If you do install in other directory please update relevant service file located in `systemd-services`.
 
