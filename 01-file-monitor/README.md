@@ -117,16 +117,20 @@ $ docker-compose up
 ### File monitor setup (direct install)
 + Step 1: Install ansible community packages
 ```
-$ ansible-galaxy collection install community.general
+$ sudo ansible-galaxy collection install community.general
 ```
 + Step 2: Install python3 and pip3
 ```
 $ sudo yum install -y python3 python3-pip
 ```
-+ Step 3: edit [inventory.yaml](/01-file-monitor/inventory.yaml)
-+ Step 4: Run ansible playbook
++ Step 3: install pip module:
 ```
-$ ansible-playbook install-all.yaml
+$ sudo pip3 install github3.py
+```
++ Step 4: edit [inventory.yaml](/01-file-monitor/inventory.yaml)
++ Step 5: Run ansible playbook
+```
+$ sudo ansible-playbook install-all.yaml
 ```
 ### Grafana setup (Docker and direct)
 + Step 1: allow Grafana UI in firewall:
@@ -162,9 +166,7 @@ NOTE: In case of direct install it will be HOST_IP instead of prometheus. For ex
 ![Grafana dashboard](/01-file-monitor/doc/screens/grafana_05.jpg?raw=true "Grafana dashboard")
     * Press `Load` and then `Import`. Done.
 
-
-
-
+In case ansible fails to install. Here is brief description of how to do it manually.
 These 3 services do not come with RPM or DEB packaging and need to be installed directly. Download their binaries and place them in respecive folders.
 
 + [Filestats](https://github.com/michael-doubez/filestat_exporter/releases)

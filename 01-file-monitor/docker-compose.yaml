@@ -2,7 +2,7 @@ version: "3.9"
 services:
   prometheus:
     image: prom/prometheus
-    command: ["--config.file=/etc/prometheus/prometheus.yml", "--log.level=debug"]
+    command: ["--config.file=/etc/prometheus/prometheus.yaml", "--log.level=debug"]
     volumes:
       - ./etc/prometheus:/etc/prometheus
     ports:
@@ -14,12 +14,12 @@ services:
       - ./grafana-storage:/var/lib/grafana
     ports:
       - "3000:3000"
-  filestats:
+  filestat_exporter:
     image: mdoubez/filestat_exporter
     user: ${CURRENT_UID}
-    command: ["-config.file=/etc/filestats/filestats.yaml", "-log.level=debug"]
+    command: ["-config.file=/etc/filestat_exporter/filestat_exporter.yaml", "-log.level=debug"]
     volumes:
-      - ./etc/filestats:/etc/filestats
+      - ./etc/filestat_exporter:/etc/filestat_exporter
       - ${TARGET_DIR}:/data
     ports:
       - "9943:9943"

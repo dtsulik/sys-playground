@@ -1,0 +1,19 @@
+- name: install systemd files
+  ansible.builtin.copy:
+    src: "systemd-services/{{ item.package }}.service"
+    dest: "/etc/systemd/system/{{ item.package }}.service"
+- name: Create config directory
+  ansible.builtin.file:
+    path: /etc/{{ item.package }}
+    state: directory
+    mode: '0755'
+- name: add configs
+  ansible.builtin.template:
+    src: templates/etc/{{ item.package }}/{{ item.package }}.yaml.j2
+    path: /etc/{{ item.package }}/{{ item.package }}.yaml
+- name: Enable and {{ item.package }}
+  ansible.builtin.systemd:
+    daemon_reload: yes
+    state: started
+    name: "{{ item.package }}"
+    enabled: yes

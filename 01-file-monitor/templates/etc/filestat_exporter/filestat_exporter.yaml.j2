@@ -4,11 +4,10 @@ exporter:
   #metrics_path: /metrics
 
   # Optional working directory - overridden by parameter '-path.cwd'
-  working_directory: "/data/"
+  working_directory: "{{ directory|default("/data/") }}"
   # Default enable/disable of metrics - overridden if not set by parameter '-metric.*'
-  enable_crc32_metric: true
+  # enable_crc32_metric: true
   # enable_nb_line_metric: false
   # list of patterns to apply - metrics can be enable/disabled for each group
   files:
-    - patterns: ["**"]
-#    - patterns: ["*"]
+    - patterns: [{{ patterns|default('"**"') }}]

@@ -1,9 +1,9 @@
 [Unit]
-Description=filestat service
+Description=filestat_exporter service
 
 [Service]
 ExecStartPre=-/usr/bin/killall filestat_exporter
-ExecStart=/opt/filestat_exporter/filestat_exporter -config.file /etc/filestats/filestat.yaml -log.level=debug
+ExecStart=/usr/local/bin/filestat_exporter -config.file /etc/filestat_exporter/filestat_exporter.yaml -log.level=debug
 ExecStop=-/usr/bin/killall filestat_exporter
 Restart=always
 RestartSec=10s

@@ -1,0 +1,17 @@
+- name: Get latest release of {{ item.package }}
+  community.general.github_release:
+    user: "{{ item.repo }}"
+    repo: "{{ item.package }}"
+    action: latest_release
+  register: release
+- name: Download {{ item.package }}
+  ansible.builtin.unarchive:
+    src: "{{ item.base_url }}/releases/download/{{ release.tag }}/{{ item.package }}-v{{ release.tag[1:] }}.linux-amd64.tar.gz"
+    dest: /tmp
+    remote_src: true
+- name: Install {{ item.package }}
+  ansible.builtin.copy:
+    src: "/tmp/{{ item.package }}-v{{ release.tag[1:] }}.linux-amd64/{{ item.package }}"
+    dest: "/usr/local/bin"
+    mode: a+x
+  become: true

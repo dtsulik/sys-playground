@@ -3,7 +3,7 @@ Description=prometheus service
 
 [Service]
 ExecStartPre=-/usr/bin/killall prometheus
-ExecStart=/opt/prometheus/prometheus  --log.level=debug --config.file=/etc/prometheus/prometheus.yml
+ExecStart=/usr/local/bin/prometheus  --log.level=debug --config.file=/etc/prometheus/prometheus.yaml
 ExecStop=-/usr/bin/killall prometheus
 Restart=always
 RestartSec=10s
