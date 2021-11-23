@@ -17,6 +17,8 @@ To quickly get started set target directory in `.env` file, change direcotry per
 ```
 $ sudo chmod a+w grafana-storage
 $ sudo chmod a+w etc/node_exporter
+$ echo 'TARGET_DIR=/home/user/' > .env
+$ echo CURRENT_UID=$(id -u):$(id -g) >> .env
 ```
 and run `docker-compose up --build`
 
