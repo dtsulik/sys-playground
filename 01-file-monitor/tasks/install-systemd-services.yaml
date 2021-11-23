@@ -10,7 +10,7 @@
 - name: add configs
   ansible.builtin.template:
     src: templates/etc/{{ item.package }}/{{ item.package }}.yaml.j2
-    path: /etc/{{ item.package }}/{{ item.package }}.yaml
+    dest: /etc/{{ item.package }}/{{ item.package }}.yaml
 - name: Enable and {{ item.package }}
   ansible.builtin.systemd:
     daemon_reload: yes
