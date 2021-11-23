@@ -1,4 +1,5 @@
 - hosts: localhost
+  gather_facts: true
   vars:
     target_dir: /home/user/
   tasks:
@@ -22,12 +23,12 @@
   - name: install packages
     include_tasks: tasks/install-from-github-v1.yaml
     loop:
-      - { package: 'prometheus', repo: 'prometheus', base_url: 'https://github.com/prometheus/prometheus' }
+      - { package: 'prometheus', repo: 'prometheus', base_url: 'https://github.com/prometheus/prometheus', hostname: "{{ inventory_hostname }}" }
       - { package: 'node_exporter', repo: 'prometheus', base_url: 'https://github.com/prometheus/node_exporter' }
   - name: install packages
     include_tasks: tasks/install-from-github-v2.yaml
     loop:
-      - { package: 'filestat_exporter', repo: 'michael-doubez', base_url: 'https://github.com/michael-doubez/filestat_exporter' }
+      - { package: 'filestat_exporter', repo: 'michael-doubez', base_url: 'https://github.com/michael-doubez/filestat_exporter', directory: "{{target_dir}}", patterns: "\"**\"" }
   - name: add cron job for directory scan
     cron:
       name: Sets cron job to run script per minute
