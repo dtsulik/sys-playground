@@ -16,6 +16,7 @@ services:
       - "3000:3000"
   filestats:
     image: mdoubez/filestat_exporter
+    user: ${CURRENT_UID}
     command: ["-config.file=/etc/filestats/filestats.yaml", "-log.level=debug"]
     volumes:
       - ./etc/filestats:/etc/filestats
