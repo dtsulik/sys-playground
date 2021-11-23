@@ -127,7 +127,7 @@ $ sudo yum install -y python3 python3-pip
 ```
 $ sudo pip3 install github3.py
 ```
-+ Step 4: edit [inventory.yaml](/01-file-monitor/inventory.yaml)
++ Step 4: edit [inventory.yaml](/01-file-monitor/inventory.yaml) (currently not used)
 + Step 5: Run ansible playbook
 ```
 $ cd sys-playground/01-file-monitor/
