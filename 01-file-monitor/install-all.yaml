@@ -20,14 +20,16 @@
       name: grafana-server
       enabled: yes
   - name: install packages
-    include_tasks: tasks/install-from-github-v1.yaml
-    include_tasks: tasks/install-systemd-services.yaml
+    include_tasks:
+      - tasks/install-from-github-v1.yaml
+      - tasks/install-systemd-services.yaml
     loop:
       - { package: 'prometheus', repo: 'prometheus', base_url: 'https://github.com/prometheus/prometheus' }
       - { package: 'node_exporter', repo: 'prometheus', base_url: 'https://github.com/prometheus/node_exporter' }
   - name: install packages
-    include_tasks: tasks/install-from-github-v2.yaml
-    include_tasks: tasks/install-systemd-services.yaml
+    include_tasks:
+      - tasks/install-from-github-v2.yaml
+      - tasks/install-systemd-services.yaml
     loop:
       - { package: 'filestat_exporter', repo: 'michael-doubez', base_url: 'https://github.com/michael-doubez/filestat_exporter' }
   - name: add cron job for directory scan

@@ -90,27 +90,27 @@ $ sudo chmod +x /usr/local/bin/docker-compose
 $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
 NOTE: the `ln -s` to `/usr/bin` directory is needed to make `docker-compose` command available to root user for `sudo docker-compose` if it may be needed.
-
-### File monitor setup (Docker way)
-+ Step 1: Clone this repo:
++ Step 7: Clone this repo:
 ```
 $ git clone https://github.com/dtsulik/sys-playground.git
 ```
-+ Step 2: Set permissions for directories backing the docker volumes:
+
+### File monitor setup (Docker way)
++ Step 1: Set permissions for directories backing the docker volumes:
 ```
 $ cd sys-playground/01-file-monitor/
 $ chmod a+w grafana-storage
 $ chmod a+w etc/node_exporter
 ```
-+ Step 3: set target directory (in this case its `/home/user/`):
++ Step 2: set target directory (in this case its `/home/user/`):
 ```
 $ echo 'TARGET_DIR=/home/user/' > .env
 ```
-+ Step 4: set current user id:
++ Step 3: set current user id:
 ```
 $ echo CURRENT_UID=$(id -u):$(id -g) >> .env
 ```
-+ Step 5: Start the services:
++ Step 4: Start the services:
 ```
 $ docker-compose up
 ```
@@ -130,6 +130,7 @@ $ sudo pip3 install github3.py
 + Step 4: edit [inventory.yaml](/01-file-monitor/inventory.yaml)
 + Step 5: Run ansible playbook
 ```
+$ cd sys-playground/01-file-monitor/
 $ sudo ansible-playbook install-all.yaml
 ```
 ### Grafana setup (Docker and direct)
