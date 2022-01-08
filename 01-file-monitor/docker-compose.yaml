@@ -14,6 +14,12 @@ services:
       - ./grafana-storage:/var/lib/grafana
     ports:
       - "3000:3000"
+  pattern_watcher:
+    image: dtsulik/filepattern_exporter
+    volumes:
+      - ./tmp:/app/files
+    ports:
+      - "9944:9944"
   filestat_exporter:
     image: mdoubez/filestat_exporter
     user: ${CURRENT_UID}

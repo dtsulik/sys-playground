@@ -157,18 +157,17 @@ NOTE: if the prometheus is installed directly to system instead of `prometheus` 
 NOTE: In case of direct install it will be HOST_IP instead of prometheus. For example:
 
 * In URL field insert `http://prometheus:9090`
-`http://192.168.10.42:9090`
 ![Grafana datasource](/01-file-monitor/doc/screens/grafana_03.jpg?raw=true "Grafana datasource")
 * Scroll down and click `Save & test`
 
 + Step 4: import dashboard:
-    * Copy conents of [grafana/dashboard.json](/01-file-monitor/grafana/dashboard.json)
+    * Copy conents of [grafana/directory-dashboard.json](/01-file-monitor/grafana/directory-dashboard.json)
     * NOTE: if you installed using ansible playbook replace `directory=\"/data\"` inside json with proper direcotry name
     * Click import:
 ![Grafana dashboard](/01-file-monitor/doc/screens/grafana_04.jpg?raw=true "Grafana dashboard")
     * Paste contents of dashboard.json in `Import via panel json`:
 ![Grafana dashboard](/01-file-monitor/doc/screens/grafana_05.jpg?raw=true "Grafana dashboard")
-    * Press `Load` and then `Import`. Done.
+    * Press `Load` and then `Import`. Do same for  [grafana/pattern-dashboard.json](/01-file-monitor/grafana/pattern-dashboard.json). Done.
 
 In case ansible fails to install. Here is brief description of how to do it manually.
 These 3 services do not come with RPM or DEB packaging and need to be installed directly. Download their binaries and place them in respecive folders.
