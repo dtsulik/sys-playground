@@ -27,11 +27,21 @@ and run `docker-compose up --build`
 
 Grafana settings can be changed in `grafana.ini` located in `grafana` folder. After change rerun `docker-compose up --build`.
 
+Pattern matching can be configured using following environment variables in docker-compose:
+
+|enviromnet variable|default value|description|
+|-------------------|-----|-----------|
+|FILEPATTERN|*|glob pattern used to match target file
+|STRINGPATTERN|(^.+ORA-\d+:.+)|regex pattern to match inside file
+|WORKDIR|/app/files|working directory of the script
+|LOG_DEST|/dev/stdout|logging destination
+
 ### Details
 The chain of information goes in following way:
 
 + `runner` container which runs a bash script generating a metric for the directory size that prometheus is able to understand.
 + optionaly `filestat` container can export size metrics for all files found in the target directory. Settings on what to match can be tweaked in `etc/filestats/filestats.yaml` under `files:` by adding various `patterns`.
++ another option is to use `patter_watcher` to find lines in files and export number of matches as a stat
 + next the `node_exporter` consumes this metric and exposes it to prometheus. NOTE that node exporter has all metrics disabled except the text exporter in order not to introduce extra load on system.
 + `prometheus` scrapes this metric and monitors it as usual
 + at the end `grafana` consumes metrics from prometheus and draws some graphs. Sample dashboard definition file can be found in `grafana` directory. Grafana settings can be tweaked in `grafana/grafana.ini` file. After change please run `docker-compose up --build` in order to rebuild docker image
