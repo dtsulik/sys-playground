@@ -20,6 +20,11 @@ services:
       - ./tmp:/app/files
     ports:
       - "9944:9944"
+    environment:
+      - FILEPATTERN=*
+      - STRINGPATTERN=(^.+ORA-\d+:.+)
+      - WORKDIR=/app/files
+      - LOG_DEST=/dev/stdout
   filestat_exporter:
     image: mdoubez/filestat_exporter
     user: ${CURRENT_UID}
